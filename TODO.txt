@@ -1,0 +1,12 @@
+TODO
+====
+
+*	Not sure there needs to be an interface.
+
+*	Considering seperating the row/table formatting methods into a different
+	class/interface.  Maybe change the name to TextTable and then create a
+	seperate TableFormatter class.
+
+*	Also considering just moving the class as is into SimpleTextTable, which
+	would leave room for a ComplexTextTable that might allow more control over
+	the table formatting (i.e.  Specifying max column widths and/or word wrap)

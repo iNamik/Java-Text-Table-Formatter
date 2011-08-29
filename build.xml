@@ -1,0 +1,211 @@
+<?xml version="1.0"?>
+<!-- $Id: build.xml,v 1.4 2010/07/25 03:20:55 dave Exp $ -->
+<project name="iNamik Text Table Formatter" basedir="." default="all">
+	<!-- timestamps -->
+	<tstamp/>
+
+	<!-- load properties -->
+	<property file="build.properties" />
+
+	<!--  Ensure build version is defined -->
+	<fail unless="build.version" message="Missing Property: build.version" />
+
+	<!--  Ensure source dir is defined -->
+	<fail unless="src.dir" message="Missing Property: src.dir" />
+
+	<!--  Ensure build dir is defined -->
+	<fail unless="build.dir" message="Missing Property: build.dir" />
+
+	<!--  Ensure dist dir is defined -->
+	<fail unless="dist.dir" message="Missing Property: dist.dir" />
+
+	<!-- set classpath -->
+	<path id="build.cp">
+		<pathelement path="${java.class.path}"/>
+<!--
+		<fileset dir="lib">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="lib-build">
+			<include name="**/*.jar"/>
+		</fileset>
+-->
+	</path>
+
+	<echo message="${java.class.path}" />
+
+		<!-- init -->
+	<target name="init" unless="init.built">
+		<!-- make sure dist directory is created -->
+		<mkdir dir="${dist.dir}"     />
+		<mkdir dir="${build.dir}"     />
+
+		<!-- set init.built so multiple calls won't waste time -->
+		<property name="init.built" value="true"/>
+	</target>
+
+	<!-- all -->
+	<target name="all" depends="init,jars,version,zips,tars" description="Build everything."/>
+
+	<!-- classes -->
+	<target name="classes" depends="init" unless="classes.built">
+		<mkdir dir="${build.dir}/classes" />
+		<javac
+			srcdir       = "${src.dir}"
+			destdir      = "${build.dir}/classes"
+			source       = "1.3"
+			classpathref = "build.cp"
+			debug        = "on"
+		/>
+
+		<!-- copy non-java files -->
+<!--
+		<copy todir="${build.dir}/classes" verbose="true">
+			<fileset dir="${src.dir}" excludes="**/*.java"/>
+		</copy>
+-->
+
+		<property name="classes.built" value="true"/>
+	</target>
+
+	<!-- jars -->
+	<target name="jars" depends="init,classes" unless="jars.built">
+		<jar destfile="${dist.dir}/${project.name}.jar" basedir="${build.dir}/classes"/>
+
+		<property name="jars.built" value="true"/>
+	</target>
+
+	<!-- tars -->
+	<target name="tars" depends="init,jars" unless="tars.built">
+		<!-- src -->
+		<tar destfile="${dist.dir}/${project.name}-src.tar.gz" compression="gzip">
+			<!-- build -->
+			<tarfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "build.xml,build.properties"
+			/>
+			<!-- src -->
+			<tarfileset
+				dir="${src.dir}"
+				prefix="${project.name}/src"
+			/>
+			<!-- version -->
+			<tarfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "VERSION.txt"
+			/>
+			<!-- text files -->
+			<tarfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "${dist.text_files}"
+			/>
+		</tar>
+
+		<!-- main dist -->
+		<tar destfile="${dist.dir}/${project.name}.tar.gz" compression="gzip">
+			<!-- jar -->
+			<tarfileset
+				dir      = "${dist.dir}"
+				prefix   = "${project.name}"
+				includes = "${project.name}.jar"
+			/>
+			<!-- version -->
+			<tarfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "VERSION.txt"
+			/>
+			<!-- text files -->
+			<tarfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "${dist.text_files}"
+			/>
+		</tar>
+
+		<property name="tars.built" value="true"/>
+	</target>
+
+	<!-- zips -->
+	<target name="zips" depends="init,jars" unless="zips.built">
+		<!-- src -->
+		<zip destfile="${dist.dir}/${project.name}-src.zip">
+			<!-- build -->
+			<zipfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "build.xml,build.properties"
+			/>
+			<!-- src -->
+			<zipfileset
+				dir    = "${src.dir}"
+				prefix = "${project.name}/src"
+			/>
+			<!-- version -->
+			<zipfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "VERSION.txt"
+			/>
+			<!-- text files -->
+			<zipfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "${dist.text_files}"
+			/>
+		</zip>
+
+		<!-- main dist -->
+		<zip destfile="${dist.dir}/${project.name}.zip">
+			<zipfileset
+				dir      = "${dist.dir}"
+				prefix   = "${project.name}"
+				includes = "${project.name}.jar"
+			/>
+			<!-- version -->
+			<zipfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "VERSION.txt"
+			/>
+			<!-- text files -->
+			<zipfileset
+				dir      = "."
+				prefix   = "${project.name}"
+				includes = "${dist.text_files}"
+			/>
+		</zip>
+
+		<property name="zips.built" value="true"/>
+	</target>
+
+	<!-- version -->
+	<target name="version">
+		<copy file="VERSION.txt" todir="${build.dir}" />
+
+		<replace file="${build.dir}/VERSION.txt" token="@build.version@" value="${build.version}" />
+
+		<replace file="${build.dir}/VERSION.txt" token="@build.date@" value="${TODAY}" />
+
+		<copy file="${build.dir}/VERSION.txt" todir="${dist.dir}" />
+	</target>
+
+	<!-- clean-all -->
+	<target name="clean-all" depends="clean-dist,clean-work"/>
+
+	<!-- clean -->
+	<target name="clean" depends="clean-work"/>
+
+	<!-- clean-dist -->
+	<target name="clean-dist">
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<!-- clean-work -->
+	<target name="clean-work">
+		<delete dir="${build.dir}" />
+	</target>
+</project>
