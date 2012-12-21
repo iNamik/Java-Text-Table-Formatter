@@ -1,20 +1,8 @@
 /*
- * iNamik TableFormatter
- * Copyright (C) 2005 David Farrell (davidpfarrell@yahoo.com)
+ * iNamik TableFormatter for Java
+ * Copyright (C) 2005-2012 David Farrell (davidpfarrell@yahoo.com)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * Licensed under MIT or GPLv3, see LICENSE.txt
  */
 package com.inamik.utils;
 
@@ -56,11 +44,11 @@ public final class SimpleTableFormatter extends AbstractTableFormatter implement
 	public int getTableWidth()
 	{
 		int width = super.getTableWidth();
-		
+
 		if (border == true)
 		{
 			width += 2;
-			
+
 			if (getColumnCount() > 1)
 			{
 				width += getColumnCount() - 1;
@@ -77,11 +65,11 @@ public final class SimpleTableFormatter extends AbstractTableFormatter implement
 	public int getTableHeight()
 	{
 		int height = super.getTableHeight();
-		
+
 		if (border == true)
 		{
 			height += 2;
-			
+
 			if (getRowCount() > 1)
 			{
 				height += getRowCount() - 1;

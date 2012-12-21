@@ -3,6 +3,16 @@ iNamik TableFormatter for Java v@build.version@ (@build.date@)
 Version History
 ===============
 
+Changes in v1.0.0
+
+	* Switched to dual license (MIT/GPL3)
+
+	* Updated copyright as '2005-2012'
+
+	* Removed trailing whitespace
+
+	* Removed unused import on TableFormatter interface
+
 Changes in v0.96.3
 
 	*	First GIT Commit
@@ -15,7 +25,7 @@ Changes in v0.96.1
 
 	*	Updated LICENSE.txt from FSF with new address
 
-	*	Modified build.xml to include a copy of the 'rendered' VERSION.txt 
+	*	Modified build.xml to include a copy of the 'rendered' VERSION.txt
 		as a stand-alone file in the dist folder
 
 	*	Minor changes to VERSION.txt

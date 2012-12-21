@@ -45,7 +45,7 @@
 	</target>
 
 	<!-- all -->
-	<target name="all" depends="init,jars,version,zips,tars" description="Build everything."/>
+	<target name="all" depends="init,jars,version,license,zips,tars" description="Build everything."/>
 
 	<!-- classes -->
 	<target name="classes" depends="init" unless="classes.built">
@@ -96,6 +96,12 @@
 				prefix   = "${project.name}"
 				includes = "VERSION.txt"
 			/>
+			<!-- license -->
+			<tarfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "LICENSE.txt"
+			/>
 			<!-- text files -->
 			<tarfileset
 				dir      = "."
@@ -117,6 +123,12 @@
 				dir      = "${build.dir}"
 				prefix   = "${project.name}"
 				includes = "VERSION.txt"
+			/>
+			<!-- license -->
+			<tarfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "LICENSE.txt"
 			/>
 			<!-- text files -->
 			<tarfileset
@@ -150,6 +162,12 @@
 				prefix   = "${project.name}"
 				includes = "VERSION.txt"
 			/>
+			<!-- license -->
+			<zipfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "LICENSE.txt"
+			/>
 			<!-- text files -->
 			<zipfileset
 				dir      = "."
@@ -171,6 +189,12 @@
 				prefix   = "${project.name}"
 				includes = "VERSION.txt"
 			/>
+			<!-- license -->
+			<zipfileset
+				dir      = "${build.dir}"
+				prefix   = "${project.name}"
+				includes = "LICENSE.txt"
+			/>
 			<!-- text files -->
 			<zipfileset
 				dir      = "."
@@ -191,6 +215,15 @@
 		<replace file="${build.dir}/VERSION.txt" token="@build.date@" value="${TODAY}" />
 
 		<copy file="${build.dir}/VERSION.txt" todir="${dist.dir}" />
+	</target>
+
+	<!-- license -->
+	<target name="license">
+		<copy file="LICENSE.txt" todir="${build.dir}" />
+
+		<replace file="${build.dir}/LICENSE.txt" token="@build.version@" value="${build.version}" />
+
+		<copy file="${build.dir}/LICENSE.txt" todir="${dist.dir}" />
 	</target>
 
 	<!-- clean-all -->
