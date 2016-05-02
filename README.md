@@ -23,3 +23,4 @@ Thank you all,
 -David Farrell<br/>
 &nbsp;DavidPFarrell@yahoo.com
  
+PS: See [README-USAGE.txt](https://github.com/iNamik/Java-Text-Table-Formatter/blob/master/README-USAGE.txt) for the original project README
